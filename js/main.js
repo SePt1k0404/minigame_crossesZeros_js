@@ -1,5 +1,6 @@
 let player = "X";
 let isWinner = false;
+let drawCounter = 0;
 
 const playerX = [];
 const playerO = [];
@@ -46,14 +47,32 @@ function handlerPlayerTurn(evt) {
         `);
     instance.show();
     instance.element().style.backgroundColor = "pink";
-    console.log(
-      (instance.element().children[0].children[0].style.backgroundColor =
-        "skyblue")
-    );
+    instance.element().children[0].children[0].style.backgroundColor =
+      "skyblue";
     instance.element().addEventListener("click", (evt) => {
       if (!evt.target.classList.contains("modal_button")) {
         return;
       }
+      instance.close();
+    });
+    resetGame();
+    return;
+  } else if (drawCounter === 9) {
+    const instance = basicLightbox.create(`
+     <div class="box">
+        <h1>Draw</h1>
+        <button type="button" class="modal_button">Restart Game</button>
+     </div>
+        `);
+    instance.show();
+    instance.element().style.backgroundColor = "pink";
+    instance.element().children[0].children[0].style.backgroundColor =
+      "skyblue";
+    instance.element().addEventListener("click", (evt) => {
+      if (!evt.target.classList.contains("modal_button")) {
+        return;
+      }
+      drawCounter = 0;
       instance.close();
     });
     resetGame();
@@ -65,9 +84,11 @@ function handlerPlayerTurn(evt) {
   function addId(player) {
     if (player === "X") {
       playerX.push(Number(evt.target.dataset.id));
+      drawCounter += 1;
       isWinner = playerX.length >= 3 ? checkWinner(playerX) : false;
     } else {
       playerO.push(Number(evt.target.dataset.id));
+      drawCounter += 1;
       isWinner = playerO.length >= 3 ? checkWinner(playerO) : false;
     }
   }
