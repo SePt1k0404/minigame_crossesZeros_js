@@ -53,6 +53,7 @@ function handlerPlayerTurn(evt) {
       if (!evt.target.classList.contains("modal_button")) {
         return;
       }
+      drawCounter = 0;
       instance.close();
     });
     resetGame();
